@@ -6,6 +6,12 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
     public void createUsersTable() {
+//       " CREATE TABLE `users`.`new_table` (
+//  `id` INT NOT NULL AUTO_INCREMENT,
+//  `name` VARCHAR(50) NOT NULL,
+//  `lastname` VARCHAR(50) NOT NULL,
+//  `age` INT(3) NOT NULL,
+//        PRIMARY KEY (`id`));"
 
     }
 
