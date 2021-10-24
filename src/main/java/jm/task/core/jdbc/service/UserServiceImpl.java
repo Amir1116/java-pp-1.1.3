@@ -11,34 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-
-
-
-    public static void main(String[] args) {
-        UserServiceImpl u = new UserServiceImpl();
-//        u.dropUsersTable();
-        //=================================
-//        u.createUsersTable();
-            u.cleanUsersTable();
-          u.saveUser("user2", "userLastName2", (byte) 25);
-//        u.removeUserById(4);
-        List<User> users = u.getAllUsers();
-        users.forEach(System.out::println);
-
-    }
-
     @Override
     public void createUsersTable() {
         exeStatement("create table if not exists users(id MEDIUMINT primary key auto_increment, name varchar(30), " +
                 "lastName varchar(30), age INT(3))");
+        System.out.println("Table was created!");
     }
 
     public void dropUsersTable() {
         exeStatement("drop table if exists users");
+        System.out.println("Table was deleted");
     }
 
     public void saveUser(String name, String lastName, byte age) {
         exeStatement(String.format("insert into users(name, lastName, age) value('%s', '%s', %d)", name, lastName, age));
+        System.out.println(name + " user was added into database!");
     }
 
     public void removeUserById(long id) {
@@ -67,9 +54,10 @@ public class UserServiceImpl implements UserService {
 
     public void cleanUsersTable() {
         exeStatement("truncate users");
+        System.out.println("table was cleaned!");
     }
 
-    private void exeStatement(String command) {
+    private static void exeStatement(String command) {
         try(Connection connection = Util.setConnection();){
             if(connection != null){
                 Statement statement = connection.createStatement();
