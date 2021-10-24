@@ -39,9 +39,10 @@ public class UserServiceImpl implements UserService {
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery("select * from users");
                 while(result.next()){
-                    User user = new User(result.getInt("id"),result.getString("name"),result.getString("lastName"),
+                    User user = new User(result.getString("name"),result.getString("lastName"),
                             (byte)result.getInt(
                             "age"));
+                    user.setId((long)result.getInt("id"));
                     userlist.add(user);
                 }
                 statement.close();
