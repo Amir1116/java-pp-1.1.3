@@ -9,10 +9,11 @@ import java.sql.SQLException;
 
 public class Util {
     public static Connection setConnection(){
-        String url = "jdbc:mysql://localhost:3306/usercatalog?autoReconnect=true&useSSL=false";
+        String url = "jdbc:mysql://localhost:3306/users?autoReconnect=true&useSSL=false";
         String password = "00000000";
         String userName = "root";
-        try(Connection connection = DriverManager.getConnection(url, userName, password);){
+        try{
+            Connection connection = DriverManager.getConnection(url, userName, password);
             System.out.println("Connection to Store DB succesfull!");
             return connection;
         } catch(Exception ex){
