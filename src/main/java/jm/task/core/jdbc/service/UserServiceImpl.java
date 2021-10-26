@@ -17,15 +17,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUsersTable() {
         userDao.createUsersTable();
-//        exeStatement("create table if not exists users(id MEDIUMINT primary key auto_increment, name varchar(30), " +
-//                "lastName varchar(30), age INT(3))");
-//        System.out.println("Table was created!");
     }
 
     public void dropUsersTable() {
         userDao.dropUsersTable();
-//        exeStatement("drop table if exists users");
-//        System.out.println("Table was deleted");
     }
 
     public void saveUser(String name, String lastName, byte age) {

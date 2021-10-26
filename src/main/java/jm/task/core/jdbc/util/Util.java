@@ -1,10 +1,6 @@
 package jm.task.core.jdbc.util;
 
-import java.sql.Connection;
-
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Util {
     private  final static String url = "jdbc:mysql://localhost:3306/users?autoReconnect=true&useSSL=false";
@@ -13,20 +9,14 @@ public class Util {
     private  static Connection connection = null;
     public Util(){}
 
-    public static Statement getStatement(){
-
-        Statement statement = null;
+    public static void setConnection(){
         try{
             connection = DriverManager.getConnection(url, userName, password);
-            if(connection != null){
-                statement = connection.createStatement();
                 System.out.println("Connection to Store DB succesfull!");
-            }
-        } catch(Exception ex){
+        } catch(Exception e){
             System.out.println("Connection failed...");
-            System.out.println(ex);
+            e.printStackTrace();
         }
-        return statement;
     }
 
     public static void closeConnection(){
@@ -40,16 +30,20 @@ public class Util {
 
     }
 
-    public String getUrl() {
+    public static String getUrl() {
         return url;
     }
 
-    public String getPassword() {
+    public static String getPassword() {
         return password;
     }
 
-    public String getUserName() {
+    public static String getUserName() {
         return userName;
+    }
+
+    public static Connection getConnection(){
+        return connection;
     }
 
 }

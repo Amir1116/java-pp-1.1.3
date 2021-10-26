@@ -3,24 +3,24 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private Statement statement;
 
     public UserDaoJDBCImpl() {
-        this.statement = Util.getStatement();
     }
 
     private void exeStatement(String command) {
         try{
-            statement.executeUpdate(command);
-        } catch (SQLException ex){
-            ex.getStackTrace();
+            Util.setConnection();
+            PreparedStatement preparedStatement = Util.getConnection().prepareStatement(command);
+            preparedStatement.executeUpdate(command);
+        } catch (SQLException e){
+            e.printStackTrace();
             Util.closeConnection();
         }
     }
@@ -48,16 +48,24 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> userlist  = new ArrayList<>();
         try{
-            ResultSet result = statement.executeQuery("select * from users");
+            Util.setConnection();
+            PreparedStatement preparedStatement =  Util.getConnection().prepareStatement("select * from users");
+            ResultSet result = preparedStatement.executeQuery();
             while(result.next()){
                 User user = new User(result.getInt("id"),result.getString("name"),result.getString("lastName"),
                         (byte)result.getInt("age"));
                 userlist.add(user);
             }
-            statement.close();
-            Util.closeConnection();
+            try{
+                result.close();
+                preparedStatement.close();
+                Util.closeConnection();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+
         } catch (SQLException e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
         return userlist;
     }
