@@ -1,11 +1,15 @@
-package jm.task.core.jdbc;
-import jm.task.core.jdbc.model.User;
-import jm.task.core.jdbc.service.UserServiceImpl;
+package main.java.jm.task.core.jdbc;
+
+
+import main.java.jm.task.core.jdbc.model.User;
+import main.java.jm.task.core.jdbc.service.UserServiceImpl;
+
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         UserServiceImpl u = new UserServiceImpl();
+        System.out.println(u);
         u.createUsersTable();
 
         u.saveUser("user1", "userLastName1", (byte) 10);

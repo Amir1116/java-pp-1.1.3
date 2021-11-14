@@ -1,33 +1,23 @@
-package jm.task.core.jdbc.util;
+package main.java.jm.task.core.jdbc.util;
 
 import java.sql.*;
 
 public class Util {
-    private  final static String url = "jdbc:mysql://localhost:3306/users?autoReconnect=true&useSSL=false";
+    private  final static String url = "jdbc:mysql://localhost:3306/user1?autoReconnect=true&useSSL=false";
     private  final static String password = "00000000";
     private  final static String userName = "root";
     private  static Connection connection = null;
     public Util(){}
 
-    public static void setConnection(){
+    public static Connection setConnection(){
         try{
-            connection = DriverManager.getConnection(url, userName, password);
-                System.out.println("Connection to Store DB succesfull!");
+            System.out.println("Connection to Store DB succesfull!");
+            return connection = DriverManager.getConnection(url, userName, password);
         } catch(Exception e){
             System.out.println("Connection failed...");
             e.printStackTrace();
         }
-    }
-
-    public static void closeConnection(){
-        if(connection != null){
-            try {
-                connection.close();
-            } catch (SQLException e){
-                e.getStackTrace();
-            }
-        }
-
+        return null;
     }
 
     public static String getUrl() {
