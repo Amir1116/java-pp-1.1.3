@@ -1,5 +1,7 @@
-import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
-import jm.task.core.jdbc.model.User;
+package test.java;
+
+import main.java.jm.task.core.jdbc.dao.UserDaoHibernateImpl;
+import main.java.jm.task.core.jdbc.model.User;
 import org.junit.Assert;
 import org.junit.Test;
 

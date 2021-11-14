@@ -1,7 +1,8 @@
-package jm.task.core.jdbc.service;
+package main.java.jm.task.core.jdbc.service;
 
-import jm.task.core.jdbc.model.User;
-import jm.task.core.jdbc.util.Util;
+
+import main.java.jm.task.core.jdbc.model.User;
+import main.java.jm.task.core.jdbc.util.Util;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
         try(Connection connection = Util.setConnection();){
             if(connection != null){
                 Statement statement = connection.createStatement();
-                ResultSet result = statement.executeQuery("select * from users");
+                ResultSet result = statement.executeQuery("select * from user");
                 while(result.next()){
                     User user = new User(result.getString("name"),result.getString("lastName"),
                             (byte)result.getInt(

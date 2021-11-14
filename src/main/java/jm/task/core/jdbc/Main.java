@@ -1,8 +1,9 @@
-package jm.task.core.jdbc;
+package main.java.jm.task.core.jdbc;
 
 //import com.mysql.jdbc.FabricMySQLDriver;
-import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
-import jm.task.core.jdbc.model.User;
+
+import main.java.jm.task.core.jdbc.dao.UserDaoHibernateImpl;
+import main.java.jm.task.core.jdbc.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
