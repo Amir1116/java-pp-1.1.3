@@ -20,7 +20,9 @@ public class UserDaoJDBCImpl
 
 
     public void createUsersTable() {
-        try (Connection connection = Util.setConnection()) {
+        Connection connection = null;
+        try {
+            connection = Util.setConnection();
             assert connection != null;
             PreparedStatement preparedStatement = connection.prepareStatement("create table if not exists user(id int " +
                     "primary key auto_increment,\n" +
