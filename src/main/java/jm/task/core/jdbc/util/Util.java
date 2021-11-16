@@ -11,13 +11,15 @@ public class Util {
 
     public static Connection setConnection(){
         try{
+            connection = DriverManager.getConnection(url,userName, password);
             System.out.println("Connection to Store DB succesfull!");
-            return connection = DriverManager.getConnection(url, userName, password);
+            return connection;
         } catch(Exception e){
             System.out.println("Connection failed...");
             e.printStackTrace();
+            return null;
         }
-        return null;
+
     }
 
     public static String getUrl() {
