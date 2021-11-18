@@ -22,15 +22,13 @@ public class UserDaoJDBCImpl
     public void createUsersTable() {
 
         try (Connection connection = Util.setConnection()) {
-
             assert connection != null;
-            try (
-                    PreparedStatement preparedStatement = connection.prepareStatement("create table if not exists user(id int " +
-                            "primary key auto_increment,\n" +
-                            " name varchar(30),lastName varchar(30), age INT(3))");) {
+            PreparedStatement preparedStatement = connection.prepareStatement("create table if not exists user(id int " +
+                    "primary key auto_increment,\n" +
+                    " name varchar(30),lastName varchar(30), age INT(3))");
                 preparedStatement.executeUpdate();
+                preparedStatement.close();
                 System.out.println("Table was created!");
-            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,10 +40,10 @@ public class UserDaoJDBCImpl
 
         try (Connection connection = Util.setConnection()) {
             assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement("drop table if exists user")) {
-                preparedStatement.executeUpdate();
-                System.out.println("Table was deleted");
-            }
+            PreparedStatement preparedStatement = connection.prepareStatement("drop table if exists user");
+            preparedStatement.executeUpdate();
+            System.out.println("Table was deleted");
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,7 +57,7 @@ public class UserDaoJDBCImpl
                 preparedStatement.setString(2, lastName);
                 preparedStatement.setByte(3, age);
                 preparedStatement.executeUpdate();
-
+                preparedStatement.close();
                 System.out.println(name + " user was added into database!");
             }
         } catch (
@@ -72,11 +70,11 @@ public class UserDaoJDBCImpl
     public void removeUserById(long id) {
         try (Connection connection = Util.setConnection()) {
             assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement("delete from user where id=?")) {
-                preparedStatement.setLong(1, id);
-                preparedStatement.executeUpdate();
-                System.out.println("user deleted!");
-            }
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from user where id=?");
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+            System.out.println("user deleted!");
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,17 +85,16 @@ public class UserDaoJDBCImpl
 
         try (Connection connection = Util.setConnection()) {
             assert connection != null;
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement("select * from user")) {
-                try (ResultSet result = preparedStatement.executeQuery();) {
-                    System.out.println(result);
-                    while (result.next()) {
-                        User user = new User(result.getInt("id"), result.getString("name"), result.getString("lastName"),
-                                (byte) result.getInt("age"));
-                        userlist.add(user);
-                    }
-                }
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from user");
+            ResultSet result = preparedStatement.executeQuery();
+            System.out.println(result);
+            while (result.next()) {
+                User user = new User(result.getInt("id"), result.getString("name"), result.getString("lastName"),
+                        (byte) result.getInt("age"));
+                userlist.add(user);
             }
+            result.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -108,11 +105,10 @@ public class UserDaoJDBCImpl
 
         try (Connection connection = Util.setConnection()) {
             assert connection != null;
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement("truncate user")) {
-                preparedStatement.executeUpdate();
-                System.out.println("table was cleaned!");
-            }
+            PreparedStatement preparedStatement = connection.prepareStatement("truncate user");
+            preparedStatement.executeUpdate();
+            System.out.println("table was cleaned!");
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
