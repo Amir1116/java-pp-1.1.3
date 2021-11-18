@@ -107,8 +107,8 @@ public class UserDaoHibernateImpl
         try {
             session = this.sessionFactory.openSession();
             transaction = session.beginTransaction();
-            User userdelete = (User) session.get(User.class, id);
-            session.delete(userdelete);
+            Query query = session.createQuery("DELETE FROM Developer WHERE id = :developerId");
+            query.setParameter("developerId", 1);
             transaction.commit();
             System.out.println("user with id " + id + " was deleted!");
         }  catch (Exception e) {
