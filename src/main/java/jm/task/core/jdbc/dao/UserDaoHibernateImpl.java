@@ -2,12 +2,12 @@ package main.java.jm.task.core.jdbc.dao;
 
 
 import main.java.jm.task.core.jdbc.model.User;
-
-import main.java.jm.task.core.jdbc.service.UserService;
 import main.java.jm.task.core.jdbc.util.Util;
-import org.hibernate.*;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserDaoHibernateImpl
@@ -25,7 +25,7 @@ public class UserDaoHibernateImpl
         try {
             session = this.sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.createSQLQuery("create table if not exists user(id MEDIUMINT primary key auto_increment,name varchar(30), lastName varchar(30), age INT(3))").executeUpdate();
+            session.createQuery("create table if not exists user(id MEDIUMINT primary key auto_increment,name varchar(30), lastName varchar(30), age INT(3))").executeUpdate();
             transaction.commit();
             System.out.println("Table was created!");
         } catch (Exception e) {
@@ -79,8 +79,7 @@ public class UserDaoHibernateImpl
         try {
             session = this.sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.createSQLQuery(String.format("insert into user(name, lastName, age) value ('%s', '%s', %d)",
-                    newUser.getName(), newUser.getLastName(), newUser.getAge())).executeUpdate();
+            session.save(newUser);
             transaction.commit();
             System.out.println(name + " user was added into table!");
         } catch (Exception e) {
@@ -108,7 +107,8 @@ public class UserDaoHibernateImpl
         try {
             session = this.sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.createQuery("delete User where id=" + id).executeUpdate();
+            User userdelete = (User) session.get(User.class, id);
+            session.delete(userdelete);
             transaction.commit();
             System.out.println("user with id " + id + " was deleted!");
         }  catch (Exception e) {
@@ -165,7 +165,7 @@ public class UserDaoHibernateImpl
         try {
             session = this.sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.createSQLQuery("truncate user").executeUpdate();
+            session.createQuery("delete from  User").executeUpdate();
             transaction.commit();
             System.out.println("table cleaned!");
         }catch (Exception e) {
